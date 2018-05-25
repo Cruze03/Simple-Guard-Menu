@@ -1,0 +1,129 @@
+﻿"Phrases"
+{
+	"StartMessage"
+	{
+		"#format"	"{1:s},{2:s},{3:s}"
+		"hu"		"A {1}-t a {2} vagy {3} paranccsal érheted el."
+		"en"		"The {1} is avaliable with the {2} or {3} command."
+	}
+	"TurnedOff"
+	{
+		"#format"	"{1:s}"
+		"hu"		"A {1} jelenleg ki van kapcsolva."
+		"en"		"The {1} is disabled."
+	}
+	"MustBeAlive"
+	{
+		"hu"		"A parancs használatához életben kell lenned."
+		"en"		"You must be alive to use this command."
+	}
+	"MustBeInGame"
+	{
+		"hu"		"A parancs csak a játékban használható."
+		"en"		"The command can be used in game only."
+	}
+	"OnlyGuards"
+	{
+		"#format"	"{1:s},{2:s}"
+		"hu"		"A {1} használatához {2} csapatban kell lenned."
+		"en"		"The {1} is avaliable in {2} side only."
+	}
+	"TeamBlockOff"
+	{
+		"hu"		"Csapatütközés kikapcsolása"
+		"en"		"Turn off TeamBlock"
+	}
+	"TeamBlockOn"
+	{
+		"hu"		"Csapatütközés bekapcsolása"
+		"en"		"Turn on TeamBlock"
+	}
+	"FriendlyFireOff"
+	{
+		"hu"		"Csapatsebzés kikapcsolása"
+		"en"		"Turn off FriendlyFire"
+	}
+	"FriendlyFireOn"
+	{
+		"hu"		"Csapatsebzés bekapcsolása"
+		"en"		"Turn on FriendlyFire"
+	}
+	"RoundExtend"
+	{
+		"hu"		"Hosszabbítás 5 perccel"
+		"en"		"Extend RoundTime with 5 minute"
+	}
+	"MutePrisoners"
+	{
+		"hu"		"T Csapat Némítása 1 percre"
+		"en"		"Mute Prisoners for 1 minute"
+	}
+	"TagPlayer"
+	{
+		"hu"		"Játékos megjelölése"
+		"en"		"Tag player"
+	}
+	"UnTagPlayer"
+	{
+		"hu"		"Jelölés törlése"
+		"en"		"UnTag Player"
+	}
+	"TeamBlockTurnedOff"
+	{
+		"hu"		"kikapcsolta a Csapatütközést."
+		"en"		"turned off the TeamBlock."
+	}
+	"TeamBlockTurnedOn"
+	{
+		"hu"		"bekapcsolta a Csapatütközést."
+		"en"		"turned on the TeamBlock."
+	}
+	"FriendlyFireTurnedOff"
+	{
+		"hu"		"kikapcsolta a Csapatsebzést."
+		"en"		"turned on the FriendlyFire."
+	}
+	"FriendlyFireTurnedOn"
+	{
+		"hu"		"bekapcsolta a Csapatsebzést."
+		"en"		"turned on the FriendlyFire."
+	}
+	"RoundExtended"
+	{
+		"hu"		"a köridőhöz adott 5 percet."
+		"en"		"added 5 minute to the RoundTime."
+	}
+	"ExtendDenied"
+	{
+		"hu"		"A hosszabbítás nem engedélyezett az utolsó 5 másodpercben."
+		"en"		"You can't extend the RoundTime in the last 5 seconds."
+	}
+	"PrisonersMuted"
+	{
+		"hu"		"némította a T Csapatot egy percre."
+		"en"		"has muted the Prisoners for one minute."
+	}
+	"MuteDeined"
+	{
+		"hu"		"A némítás nem engedélyezett az utolsó egy percben."
+		"en"		"You can't mute Prisoners in the last one minute."
+	}
+	"Tagged"
+	{
+		"#format"	"{1:s}"
+		"hu"		"megjelölte {1} játékost."
+		"en"		"has tagged {1}."
+	}
+	"UnTagged"
+	{
+		"#format"	"{1:s}"
+		"hu"		"törölte {1} játékosról a jelölést."
+		"en"		"has untagged {1}."
+	}
+	"TargetNotFound"
+	{
+		"#format"	"{1:s}"
+		"hu"		"Nincs célpont vagy érvénytelen."
+		"en"		"There is no target or it's invalid."
+	}
+}
