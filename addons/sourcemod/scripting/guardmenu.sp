@@ -2,6 +2,7 @@
 #include <cstrike>
 #include <clientprefs>
 #include <sdktools>
+#include <sdkhooks>
 #include <scp>
 #include <sourcecomms>
 
@@ -11,6 +12,7 @@
 #define MAX_BUTTONS 25
 
 Handle RoundTimeTicker;
+Handle TickerState = INVALID_HANDLE;
 bool g_bEnabled = true;
 bool g_bMutePrisoners = true;
 bool g_bExtendTime = true;
@@ -35,6 +37,8 @@ ConVar g_hEnabled;
 ConVar g_hMutePrisoners;
 ConVar g_hExtendTime;
 ConVar g_hTagging;
+ConVar g_hDefaultBlock;
+ConVar g_hDefaultFF;
 
 
 ConVar g_hTeamBlock;
@@ -46,7 +50,7 @@ public Plugin myinfo =
 	name = "[CSGO] JailBreak Guard Menu", 
 	author = "Entity", 
 	description = "Simple Round Control menu for guards", 
-	version = "1.1"
+	version = "1.2"
 };
 
 public void OnPluginStart()
@@ -57,6 +61,8 @@ public void OnPluginStart()
 	g_hMutePrisoners = CreateConVar("sm_gm_mute", "1", "Enable prisoner mute part?", 0, true, 0.0, true, 1.0);
 	g_hExtendTime = CreateConVar("sm_gm_extend", "1", "Enable time extend part?", 0, true, 0.0, true, 1.0);
 	g_hTagging = CreateConVar("sm_gm_tagging", "1", "Enable player tagging part?", 0, true, 0.0, true, 1.0);
+	g_hDefaultBlock = CreateConVar("sm_gm_defaultblock", "1", "The default state of TeamBlock", 0, true, 0.0, true, 1.0);
+	g_hDefaultFF = CreateConVar("sm_gm_defaultff", "0", "The default state of FriendlyFire", 0, true, 0.0, true, 1.0);
 	
 	HookConVarChange(g_hEnabled, OnCvarChange_Enabled);
 	HookConVarChange(g_hMutePrisoners, OnCvarChange_Mute);
@@ -69,7 +75,7 @@ public void OnPluginStart()
 	HookEvent("player_spawn", OnPlayerSpawn);
 	HookEvent("round_start", OnRoundStart);
 	HookEvent("round_end", OnRoundEnd);
-	HookEvent("server_cvar", OnServerCvar, EventHookMode_Pre)
+	HookEvent("server_cvar", OnServerCvar, EventHookMode_Pre);
 	
 	g_hTeamBlock = FindConVar("mp_solid_teammates");
 	g_hFriendlyFire = FindConVar("mp_friendlyfire");
@@ -82,6 +88,7 @@ public void OnPluginStart()
 		if ((IsClientInGame(i)) && (IsPlayerAlive(i)))
 		{
 			int IsClientCT = GetClientTeam(i);
+			SDKHook(i, SDKHook_OnTakeDamage, BlockDamageForCT);
 			if (IsClientCT == 3)
 			{
 				g_bIsClientCT[i] = true;
@@ -362,21 +369,68 @@ public Action OnPlayerSpawn(Event event, const char[] name, bool dontBroadcast)
 	{
 		g_bIsClientCT[client] = false;
 	}
+
+	SDKHook(client, SDKHook_OnTakeDamage, BlockDamageForCT);
+}
+
+
+public Action BlockDamageForCT(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3])
+{
+	int VictimTeam = GetClientTeam(victim);
+	int AttackerTeam = GetClientTeam(attacker);
+	if ((GetConVarInt(g_hFriendlyFire) == 1) && (VictimTeam == 3) && (AttackerTeam == 3))
+	{
+		return Plugin_Handled;
+	}
+	return Plugin_Continue;
 }
 
 public Action OnRoundStart(Event event, char[] name, bool dontBroadcast)
 {
+	int client = GetClientOfUserId(event.GetInt("userid"));
+	SDKHook(client, SDKHook_OnTakeDamage, BlockDamageForCT);
+
 	if (g_bMutePrisoners == false) g_bTMute = false;
 	if (g_bExtendTime == false) g_bExtend = false;
 	g_RoundTime = GetConVarInt(g_hRoundTime) * 60;
-	RoundTimeTicker = CreateTimer(1.0, Timer_RoundTimeLeft, g_RoundTime, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
+	if (TickerState == INVALID_HANDLE)
+	{
+		RoundTimeTicker = CreateTimer(1.0, Timer_RoundTimeLeft, g_RoundTime, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
+	}
+	else
+	{
+		KillTimer(RoundTimeTicker);
+		RoundTimeTicker = CreateTimer(1.0, Timer_RoundTimeLeft, g_RoundTime, TIMER_REPEAT|TIMER_FLAG_NO_MAPCHANGE);
+	}
 }
 
 public Action OnRoundEnd(Event event, char[] name, bool dontBroadcast)
 {
-	KillTimer(RoundTimeTicker);
+	if (TickerState != INVALID_HANDLE)
+	{
+		KillTimer(RoundTimeTicker);
+	}
 	if (g_bMutePrisoners == true) g_bTMute = true;
 	if (g_bExtendTime == true) g_bExtend = true;
+	
+	if (GetConVarInt(g_hDefaultBlock) == 1)
+	{
+		SetConVarInt(g_hTeamBlock, 1, true, false);
+	}
+	else
+	{
+		SetConVarInt(g_hTeamBlock, 0, true, false);
+	}
+	
+	if (GetConVarInt(g_hDefaultFF) == 1)
+	{
+		SetConVarInt(g_hFriendlyFire, 1, true, false);
+	}
+	else
+	{
+		SetConVarInt(g_hFriendlyFire, 0, true, false);
+	}
+	
 	if (g_bTagging == true)
 	{
 		for(int i = 1; i <= MaxClients; i++)

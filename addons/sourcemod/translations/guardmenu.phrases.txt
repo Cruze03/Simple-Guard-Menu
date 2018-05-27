@@ -81,7 +81,7 @@
 	"FriendlyFireTurnedOff"
 	{
 		"hu"		"kikapcsolta a Csapatsebzést."
-		"en"		"turned on the FriendlyFire."
+		"en"		"turned off the FriendlyFire."
 	}
 	"FriendlyFireTurnedOn"
 	{
