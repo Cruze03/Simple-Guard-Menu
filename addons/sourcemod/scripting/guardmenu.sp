@@ -285,8 +285,8 @@ public int GuardMenuChoice(Menu menu, MenuAction action, int client, int itemNum
 		{
 			if (g_RoundTime > 5)
 			{
-				g_bExtend = false;
-				GameRules_SetProp("m_iRoundTime", g_RoundTime + 60*5, 4, 0, true);
+				g_bExtend = false;				
+				GameRules_SetProp("m_iRoundTime", GameRules_GetProp("m_iRoundTime", 4, 0)+300, 4, 0, true);
 				g_RoundTime = g_RoundTime + 300;
 				ShowGuardMenu(client, itemNum);
 				PrintToChatAll("%s \x06%N\x0B %t", Prefix, client, "RoundExtended");
