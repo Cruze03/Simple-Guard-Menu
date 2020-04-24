@@ -5,125 +5,173 @@
 		"#format"	"{1:s},{2:s},{3:s}"
 		"hu"		"A {1}-t a {2} vagy {3} paranccsal érheted el."
 		"en"		"The {1} is avaliable with the {2} or {3} command."
+		"ro"		"{1} este disponibil cu comenzile {2} si {3}"
+		"fr"		"{1} est disponible avec la commande {2} ou {3}."
 	}
 	"TurnedOff"
 	{
 		"#format"	"{1:s}"
 		"hu"		"A {1} jelenleg ki van kapcsolva."
 		"en"		"The {1} is disabled."
+		"ro"		"{1} este dezactivat"
+		"fr"		"{1} est désactivé"
 	}
 	"MustBeAlive"
 	{
 		"hu"		"A parancs használatához életben kell lenned."
 		"en"		"You must be alive to use this command."
+		"ro"		"Trebuie sa fii in viata pentru a utiliza aceasta comanda"
+		"fr"		"Tu dois être en vie pour utiliser cette commande."
 	}
 	"MustBeInGame"
 	{
 		"hu"		"A parancs csak a játékban használható."
 		"en"		"The command can be used in game only."
+		"ro"		"Comanda poate fi utilizata doar in joc"
+		"fr"		"Cette commande ne peut être utiliser qu'en jeu."
 	}
 	"OnlyGuards"
 	{
 		"#format"	"{1:s},{2:s}"
 		"hu"		"A {1} használatához {2} csapatban kell lenned."
 		"en"		"The {1} is avaliable in {2} side only."
+		"ro"		"{1} este disponibil doar pentru echipa {2}"
+		"fr"		"{1} est disponible uniquement en {2}"
 	}
 	"TeamBlockOff"
 	{
 		"hu"		"Csapatütközés kikapcsolása"
 		"en"		"Turn off TeamBlock"
+		"ro"		"Opreste TeamBlock"
+		"fr"		"Désactivé le TeamBlock"
 	}
 	"TeamBlockOn"
 	{
 		"hu"		"Csapatütközés bekapcsolása"
 		"en"		"Turn on TeamBlock"
+		"ro"		"Porneste TeamBlock"
+		"fr"		"Activé le TeamBlock"
 	}
 	"FriendlyFireOff"
 	{
 		"hu"		"Csapatsebzés kikapcsolása"
 		"en"		"Turn off FriendlyFire"
+		"ro"		"Opreste FriendlyFire"
+		"fr"		"Désactivé le FriendlyFire"
 	}
 	"FriendlyFireOn"
 	{
 		"hu"		"Csapatsebzés bekapcsolása"
 		"en"		"Turn on FriendlyFire"
+		"ro"		"Porneste FriendlyFire"
+		"fr"		"Activé le FriendlyFire"
 	}
 	"RoundExtend"
 	{
 		"hu"		"Hosszabbítás 5 perccel"
-		"en"		"Extend RoundTime with 5 minute"
+		"en"		"Extend RoundTime with 5 minutes"
+		"ro"		"Extinde durata rundei cu 5 minute"
+		"fr"		"Durée du round étendu de 5 minutes"
 	}
 	"MutePrisoners"
 	{
 		"hu"		"T Csapat Némítása 1 percre"
 		"en"		"Mute Prisoners for 1 minute"
+		"ro"		"Acorda mute Prizonierilor pentru 1 minut"
+		"fr"		"Mute les prisonniers pendant 1 minute"
 	}
 	"TagPlayer"
 	{
 		"hu"		"Játékos megjelölése"
 		"en"		"Tag player"
+		"ro"		"Tag unui player"
+		"fr"		"Tag un joueur"
 	}
 	"UnTagPlayer"
 	{
 		"hu"		"Jelölés törlése"
 		"en"		"UnTag Player"
+		"ro"		"unTag unui player"
+		"fr"		"UnTag un joueur"
 	}
 	"TeamBlockTurnedOff"
 	{
 		"hu"		"kikapcsolta a Csapatütközést."
 		"en"		"turned off the TeamBlock."
+		"ro"		"TeamBlock oprit"
+		"fr"		"Teamblock désactivé"
 	}
 	"TeamBlockTurnedOn"
 	{
 		"hu"		"bekapcsolta a Csapatütközést."
 		"en"		"turned on the TeamBlock."
+		"ro"		"TeamBlock pornit"
+		"fr"		"TeamBlock activé"
 	}
 	"FriendlyFireTurnedOff"
 	{
 		"hu"		"kikapcsolta a Csapatsebzést."
 		"en"		"turned off the FriendlyFire."
+		"ro"		"FriendlyFire oprit"
+		"fr"		"FriendlyFie désactivé"
 	}
 	"FriendlyFireTurnedOn"
 	{
 		"hu"		"bekapcsolta a Csapatsebzést."
 		"en"		"turned on the FriendlyFire."
+		"ro"		"FriendlyFire pornit"
+		"fr"		"FriendlyFire activé"
 	}
 	"RoundExtended"
 	{
 		"hu"		"a köridőhöz adott 5 percet."
 		"en"		"added 5 minute to the RoundTime."
+		"ro"		"au fost adaugate 5 minute acestei runde"
+		"fr"		"ajout de 5 minutes au temps du round"
 	}
 	"ExtendDenied"
 	{
 		"hu"		"A hosszabbítás nem engedélyezett az utolsó 5 másodpercben."
 		"en"		"You can't extend the RoundTime in the last 5 seconds."
+		"ro"		"Nu poti extinde durata rundei in ultimele 5 secunde"
+		"fr"		"Tu ne peux pas étendre le round dans les 5 dernières minutes"
 	}
 	"PrisonersMuted"
 	{
 		"hu"		"némította a T Csapatot egy percre."
 		"en"		"has muted the Prisoners for one minute."
+		"ro"		"a acordat mute Prizonierilor pentru 1 minut"
+		"fr"		"a mute un prisonnier pendant 1 minute"
 	}
 	"MuteDeined"
 	{
 		"hu"		"A némítás nem engedélyezett az utolsó egy percben."
 		"en"		"You can't mute Prisoners in the last one minute."
+		"ro"		"Nu poti acorda mute Prizonierilor in ultimul minut"
+		"fr"		"Tu ne peux pas mute les prisonnier pendant la dernière minute de jeu"
 	}
 	"Tagged"
 	{
 		"#format"	"{1:s}"
 		"hu"		"megjelölte {1} játékost."
 		"en"		"has tagged {1}."
+		"ro"		"tag lui {1}"
+		"fr"		"a tag {1}"
 	}
 	"UnTagged"
 	{
 		"#format"	"{1:s}"
 		"hu"		"törölte {1} játékosról a jelölést."
 		"en"		"has untagged {1}."
+		"ro"		"untag lui {1}"
+		"fr"		"a enlevé le tag a {1}"
 	}
 	"TargetNotFound"
 	{
 		"#format"	"{1:s}"
 		"hu"		"Nincs célpont vagy érvénytelen."
 		"en"		"There is no target or it's invalid."
+		"ro"		"Nu este niciun player selectat sau este invalid"
+		"fr"		"Aucune cible valide"
 	}
 }
