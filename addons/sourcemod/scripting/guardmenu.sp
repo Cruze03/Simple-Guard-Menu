@@ -376,11 +376,15 @@ public Action OnPlayerSpawn(Event event, const char[] name, bool dontBroadcast)
 
 public Action BlockDamageForCT(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3])
 {
-	int VictimTeam = GetClientTeam(victim);
-	int AttackerTeam = GetClientTeam(attacker);
-	if ((GetConVarInt(g_hFriendlyFire) == 1) && (VictimTeam == 3) && (AttackerTeam == 3))
+	if ((IsClientInGame(victim) && (victim > 0 && victim <= MAXPLAYERS)) &&
+		IsClientInGame(attacker) && (attacker > 0 && attacker <= MAXPLAYERS))
 	{
-		return Plugin_Handled;
+		int VictimTeam = GetClientTeam(victim);
+		int AttackerTeam = GetClientTeam(attacker);
+		if ((GetConVarInt(g_hFriendlyFire) == 1) && (VictimTeam == 3) && (AttackerTeam == 3))
+		{
+			return Plugin_Handled;
+		}
 	}
 	return Plugin_Continue;
 }
