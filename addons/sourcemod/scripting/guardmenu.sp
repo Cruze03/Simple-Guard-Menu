@@ -62,6 +62,7 @@ ConVar g_hDefaultFF;
 
 ConVar g_hTeamBlock;
 ConVar g_hFriendlyFire;
+ConVar g_hTeammatesAreEnemies;
 ConVar g_hRoundTime;
 
 public Plugin myinfo = 
@@ -69,7 +70,7 @@ public Plugin myinfo =
 	name = "[CSGO] JailBreak Guard Menu", 
 	author = "Entity", 
 	description = "Simple Round Control menu for guards", 
-	version = "1.2"
+	version = "1.3"
 };
 
 public void OnPluginStart()
@@ -98,6 +99,7 @@ public void OnPluginStart()
 	
 	g_hTeamBlock = FindConVar("mp_solid_teammates");
 	g_hFriendlyFire = FindConVar("mp_friendlyfire");
+	g_hTeammatesAreEnemies = FindConVar("mp_teammates_are_enemies");
 	g_hRoundTime = FindConVar("mp_roundtime");
 	
 	AutoExecConfig(true, "guardmenu");
@@ -119,6 +121,14 @@ public void OnPluginStart()
 			}
 		}
 	}
+}
+
+public void OnMapStart()
+{
+	g_bEnabled = g_hEnabled.BoolValue;
+	g_bMutePrisoners = g_hMutePrisoners.BoolValue;
+	g_bExtendTime = g_hExtendTime.BoolValue;
+	g_bTagging = g_hTagging.BoolValue;
 }
 
 public void OnCvarChange_Enabled(ConVar cvar, char[] oldvalue, char[] newvalue)
@@ -182,7 +192,7 @@ public Action OnServerCvar(Handle event, const char[] name, bool dontBroadcast)
 	char sConVarName[64];
 	sConVarName[0] = '\0';
 	GetEventString(event, "cvarname", sConVarName, sizeof(sConVarName));
-	if (StrContains(sConVarName, "mp_friendlyfire", false) >= 0 || StrContains(sConVarName, "mp_solid_teammates", false) >= 0 || StrContains(sConVarName, "sv_alltalk", false) >= 0 || StrContains(sConVarName, "sv_full_alltalk", false) >= 0 || StrContains(sConVarName, "sv_deadtalk", false) >= 0)
+	if (StrContains(sConVarName, "mp_friendlyfire", false) >= 0 || StrContains(sConVarName, "mp_solid_teammates", false) >= 0 || StrContains(sConVarName, "sv_alltalk", false) >= 0 || StrContains(sConVarName, "sv_full_alltalk", false) >= 0 || StrContains(sConVarName, "sv_deadtalk", false) >= 0 || StrContains(sConVarName, "mp_teammates_are_enemies", false) >= 0)
 	{
 		return Plugin_Handled;
 	}
@@ -251,10 +261,10 @@ stock void ShowGuardMenu(int client, int itemNum)
 		Format(sFF, sizeof(sFF), "%t", "FriendlyFireOff");
 		menu.AddItem("friendlyfire", sFF, g_bFriendlyFire ? 0 : 1);
 	}
-	menu.AddItem("extend", t_Extend, g_bExtend ? 0 : 1);
-	menu.AddItem("mutet", t_MuteT, g_bTMute ? 0 : 1);
-	menu.AddItem("tagfd", t_TagP, g_bTagging ? 0 : 1);
-	menu.AddItem("untagfd", t_UnTagP, g_bTagging ? 0 : 1);
+	menu.AddItem("extend", t_Extend, g_bExtendTime&&g_bExtend ? ITEMDRAW_DEFAULT : ITEMDRAW_DISABLED);
+	menu.AddItem("mutet", t_MuteT, g_bMutePrisoners&&g_bTMute ? ITEMDRAW_DEFAULT : ITEMDRAW_DISABLED);
+	menu.AddItem("tagfd", t_TagP, g_bTagging ? ITEMDRAW_DEFAULT : ITEMDRAW_DISABLED);
+	menu.AddItem("untagfd", t_UnTagP, g_bTagging ? ITEMDRAW_DEFAULT : ITEMDRAW_DISABLED);
 	menu.Display(client, MENU_TIME_FOREVER);
 }
 
@@ -290,12 +300,14 @@ public int GuardMenuChoice(Menu menu, MenuAction action, int client, int itemNum
 			if (GetConVarInt(g_hFriendlyFire) == 1)
 			{
 				SetConVarInt(g_hFriendlyFire, 0, true, false);
+				SetConVarInt(g_hTeammatesAreEnemies, 0, true, false);
 				ShowGuardMenu(client, itemNum);
 				PrintToChatAll("%s \x06%N\x0B %t", Prefix, client, "FriendlyFireTurnedOff");
 			}
 			else
 			{
 				SetConVarInt(g_hFriendlyFire, 1, true, false);
+				SetConVarInt(g_hTeammatesAreEnemies, 1, true, false);
 				ShowGuardMenu(client, itemNum);
 				PrintToChatAll("%s \x06%N\x0B %t", Prefix, client, "FriendlyFireTurnedOn");
 			}
@@ -357,21 +369,31 @@ public int GuardMenuChoice(Menu menu, MenuAction action, int client, int itemNum
 
 public Action Command_TagPlayer(int client, int target)
 {
-	if ((IsClientInGame(client)) && (IsPlayerAlive(client)))
+	if ((target != -1 && IsClientInGame(target) && IsPlayerAlive(target) && IsClientInGame(client) && IsPlayerAlive(client)))
 	{
 		SetEntityRenderColor(target, 0, 255, 0, 75);
 	}
 	else
 	{
-		PrintToChat(client, "%s %t", Prefix, "TargetNotFound");
+		if(IsClientInGame(client))
+		{
+			PrintToChat(client, "%s %t", Prefix, "TargetNotFound");
+		}
 	}
 }
 
 public Action Command_UnTagPlayer(int client, int target)
 {
-	if (!(client == target))
+	if (client != target && target != -1 && IsClientInGame(target) && IsPlayerAlive(target) && IsClientInGame(client) && IsPlayerAlive(client))
 	{
 		SetEntityRenderColor(target, 255, 255, 255, 255);
+	}
+	else
+	{
+		if(IsClientInGame(client))
+		{
+			PrintToChat(client, "%s %t", Prefix, "TargetNotFound");
+		}
 	}
 }
 
@@ -395,8 +417,13 @@ public Action OnPlayerSpawn(Event event, const char[] name, bool dontBroadcast)
 
 public Action BlockDamageForCT(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3])
 {
-	if ((IsClientInGame(victim) && (victim > 0 && victim <= MAXPLAYERS)) &&
-		IsClientInGame(attacker) && (attacker > 0 && attacker <= MAXPLAYERS))
+	if(victim < 1 || victim > MaxClients || attacker < 1 || attacker > MaxClients)
+	{
+		return Plugin_Continue;
+	}
+	int VictimTeam = GetClientTeam(victim);
+	int AttackerTeam = GetClientTeam(attacker);
+	if ((GetConVarInt(g_hFriendlyFire) == 1) && (VictimTeam == 3) && (AttackerTeam == 3))
 	{
 		int VictimTeam = GetClientTeam(victim);
 		int AttackerTeam = GetClientTeam(attacker);
@@ -448,10 +475,12 @@ public Action OnRoundEnd(Event event, char[] name, bool dontBroadcast)
 	if (GetConVarInt(g_hDefaultFF) == 1)
 	{
 		SetConVarInt(g_hFriendlyFire, 1, true, false);
+		SetConVarInt(g_hTeammatesAreEnemies, 1, true, false);
 	}
 	else
 	{
 		SetConVarInt(g_hFriendlyFire, 0, true, false);
+		SetConVarInt(g_hTeammatesAreEnemies, 0, true, false);
 	}
 	
 	if (g_bTagging == true)
