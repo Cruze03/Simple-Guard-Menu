@@ -10,7 +10,7 @@ Simple Guard Menu
 
             Enable/Disable TeamBlock
             Enable/Disable FriendlyFire
-            Mute Prisoners for one minute (Once a round)
+            Mute Prisoners for x minute (Once a round)
             Extend current time left with five minute (Once a round)
             Tag/UnTag a player with green color
             100% Translatability (Default: English and Hungarian)
