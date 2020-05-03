@@ -174,4 +174,8 @@
 		"ro"		"Nu este niciun player selectat sau este invalid"
 		"fr"		"Aucune cible valide"
 	}
+	"SelectColor"
+	{
+		"en"		"Select color with aim on player you want to tag."
+	}
 }
