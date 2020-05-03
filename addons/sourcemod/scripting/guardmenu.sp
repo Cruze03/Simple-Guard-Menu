@@ -421,16 +421,13 @@ public Action BlockDamageForCT(int victim, int &attacker, int &inflictor, float 
 	{
 		return Plugin_Continue;
 	}
+	
 	int VictimTeam = GetClientTeam(victim);
 	int AttackerTeam = GetClientTeam(attacker);
+	
 	if ((GetConVarInt(g_hFriendlyFire) == 1) && (VictimTeam == 3) && (AttackerTeam == 3))
 	{
-		int VictimTeam = GetClientTeam(victim);
-		int AttackerTeam = GetClientTeam(attacker);
-		if ((GetConVarInt(g_hFriendlyFire) == 1) && (VictimTeam == 3) && (AttackerTeam == 3))
-		{
-			return Plugin_Handled;
-		}
+		return Plugin_Handled;
 	}
 	return Plugin_Continue;
 }
