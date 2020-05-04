@@ -21,6 +21,7 @@ Simple Guard Menu
 
             sm_gm_enabled - Enable the guardmenu system?
             sm_gm_mute - Enable prisoner mute part?
+            sm_gm_mute_duration - Duration to mute for?
             sm_gm_extend - Enable time extend part?
             sm_gm_tagging - Enable player tagging part?
 
